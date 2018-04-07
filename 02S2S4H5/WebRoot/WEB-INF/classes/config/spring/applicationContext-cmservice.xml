@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       					   http://www.springframework.org/schema/beans/spring-beans.xsd">
+       					   
+	<!-- 把action交给Spring管理 -->
+	<bean id="customerAction" class="cn.itcast.web.action.CustomerAction" scope="prototype">
+		<!-- 给动作类注入业务层对象 -->
+		<property name="cmService" ref="cmService"></property>
+	</bean>
+	
+	<!-- 把Service交给Spring管理 -->
+	<bean id="cmService" class="cn.itcast.service.impl.CustomerManagementServiceImpl">
+		<!-- 给service注入dao -->
+		<property name="customerDao" ref="customerDao"></property>
+	</bean>
+	
+	<!-- Dao的第一种定义方式
+	把dao交给spring管理  			不能使用：原因事务控制又回到了持久层
+	<bean id="customerDao" class="cn.itcast.dao.impl.CustomerDaoImpl">
+		给dao注入Session工厂
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean> -->
+	
+	
+	<!-- Dao的第二种定义方式：使用HibernateTemplate
+			把dao交给spring管理 
+	<bean id="customerDao" class="cn.itcast.dao.impl.CustomerDaoImpl1">
+		给dao注入HibernateTemplate
+		<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+	</bean>-->
+	
+	<!-- Dao的第三种定义方式：使用HibernateDaoSupport
+			此种方式只能在XML中使用，注解中不能使用
+	 -->
+	 <bean id="customerDao" class="cn.itcast.dao.impl.CustomerDaoImpl2">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+</beans>

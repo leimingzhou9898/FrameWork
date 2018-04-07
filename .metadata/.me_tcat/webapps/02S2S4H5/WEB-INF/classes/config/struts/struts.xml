@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!-- 开启开发者模式 -->
+	<constant name="struts.devMode" value="true"></constant>
+	<!-- 配置过滤器默认拦截的URL -->
+	<constant name="struts.action.extension" value="action"></constant>
+	
+	<package name="cmService" extends="struts-default" namespace="/cmservice">
+		<!-- <action name="findCustomerById" class="cn.itcast.web.action.CustomerAction" method="findCustomerById">
+			<result name="success">/success.jsp</result>
+		</action> -->
+		
+		<!--  当执行此动作时，框架会根据class属性的值去反射创建类对象。
+			     当创建失败时，框架会拿着class属性的值当成bean的id在spring容器中查找对象。 -->
+		<action name="findCustomerById" class="customerAction" method="findCustomerById">
+			<result name="success">/success.jsp</result>
+		</action>
+	</package>
+</struts>

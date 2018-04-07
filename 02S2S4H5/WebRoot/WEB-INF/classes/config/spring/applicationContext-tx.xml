@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       					   http://www.springframework.org/schema/beans/spring-beans.xsd
+       					   http://www.springframework.org/schema/tx 
+       					   http://www.springframework.org/schema/tx/spring-tx.xsd
+        				   http://www.springframework.org/schema/aop 
+        				   http://www.springframework.org/schema/aop/spring-aop.xsd">
+<!-- 以后关于事务的配置都写在此处 -->
+
+       					   
+	<!-- 配置事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<!-- 为事务管理器注入Session工厂 -->
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- 配置事务的通知 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<!-- 配置事务的属性 -->
+		<tx:attributes>
+			<tx:method name="*" read-only="false" propagation="REQUIRED"/>
+			<tx:method name="find*" read-only="true" propagation="SUPPORTS"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<!--配置AOP-->
+	<aop:config>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pt1"/>
+	</aop:config>
+
+</beans>

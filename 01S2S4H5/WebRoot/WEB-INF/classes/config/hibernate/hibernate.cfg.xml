@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- 1.连接数据库的信息 
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/crm_ee0625_ssh</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">1234</property>-->
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<!-- 2.hibernate的基本配置 -->
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.format_sql">false</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		<!-- 把session绑定到当前线程上的配置 
+		当我们使用了HibernateTemplate之后，就会使用Hibernate中Session的代理对象，就不认识此行配置了。
+		<property name="hibernate.current_session_context_class">thread</property>-->
+		<property name="hibernate.current_session_context_class">
+			org.springframework.orm.hibernate5.SpringSessionContext
+		</property>
+		<!-- 3.映射配置 -->
+		<mapping resource="cn/itcast/domain/CstCustomer.hbm.xml"/>
+	</session-factory>
+</hibernate-configuration>

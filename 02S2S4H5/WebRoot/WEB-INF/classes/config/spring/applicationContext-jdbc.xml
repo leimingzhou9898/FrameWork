@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       					   http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!-- 配置数据库操作的 -->
+	
+	<!-- 配置HiberanteTemplate 
+		当使用HibernateDaoSupport作为我们Dao的父类时，此配置没用
+	-->
+	<!-- <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+		注入Session工厂
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean> -->
+	
+	
+	<!-- 配置一个SessionFactory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<!-- 创建Session工厂所需的信息：
+				1、连接数据库的信息。使用了数据源
+					给Session工厂注入数据源 -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 需要把原来hibernate主配置文件中的配置都挪进来 -->
+		<!-- 2、hibernate的基本配置 -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate5.SpringSessionContext</prop>
+			</props>
+		</property>
+		<!-- 3、映射配置 
+			mappingDirectoryLocations：指定的是映射文件所在的包
+			mappingLocations：指定的是映射文件。它可以使用通配符
+			mappingResources：指定的是映射文件。它不能使用通配符，有几个映射文件写几个
+		-->
+		<property name="mappingLocations">
+			<array>
+				<value>classpath:cn/itcast/domain/*.hbm.xml</value>
+			</array>
+		</property>
+	</bean>
+	
+	<!-- 配置数据源 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/crm_ee0625_ssh"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="123456"></property>
+	</bean>
+</beans>
